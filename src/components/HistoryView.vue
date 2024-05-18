@@ -6,7 +6,8 @@
             return {
                 baseApiUrl: import.meta.env.VITE_BASE_API_URL,
                 routes: [],
-                message: ''
+                message: '',
+                toggleList: []
             }
         },
 
@@ -16,12 +17,21 @@
 
             if(typeof response.data === 'object') {
                 this.routes = response.data
+                this.routes.forEach(el => {
+                    this.toggleList.push(false)
+                })
             }
 
             if(typeof response.data === 'string') {
                 this.message = response.data
             }
 
+        },
+
+        methods: {
+            toggleIt(i) {
+                this.toggleList[i] = !this.toggleList[i]
+            }
         }
     }
 </script>
@@ -33,12 +43,14 @@
                 <h3>История маршрутов</h3>
             </div>
         </div>
-        <template v-for="route in routes">
-            <div class="border-small mb-10">
+        <template v-for="(route, idx) in routes">
+            <div class="row">            
+                <div class="col s12 teal lighten-2 toggle" @click="toggleIt(idx)">
+                    <p class="white-text"><b>{{ route.executorName }} - {{ route.routeDate }}</b></p>
+                </div>
+            </div>
+            <div class="border-small mb-10" v-if="toggleList[idx]">
                 <div class="row">
-                    <div class="col s12">
-                        <p><b>{{ route.executorName }} - {{ route.routeDate }}</b></p>
-                    </div>
                     <div class="col s12 m6 l6">
                         <h5>Закупки</h5>
                         <table>
@@ -105,6 +117,10 @@
 </template>
 
 <style>
+
+    .toggle {
+        cursor: pointer;
+    }
 
     .border-small {
         border: 2px solid #e0e0e0;
