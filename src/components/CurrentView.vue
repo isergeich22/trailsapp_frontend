@@ -40,6 +40,7 @@
 
                 })
 
+                this.startSum = this.routes[0].startSum
                 this.roadSum = this.routes[0].roadSum
                 this.endSum = this.routes[0].startSum - this.purchasesSum - this.routes[0].roadSum
             
@@ -108,6 +109,13 @@
             },
 
             async editStartSum(executorName) {
+
+                const response = await axios.put(this.baseApiUrl + 'current/edit_start_sum', {
+                    executorName: executorName,
+                    startSum: this.startSum
+                })
+
+                this.routes = response.data
 
             },
 
@@ -347,7 +355,7 @@
         <div class="row">
             <h5>Выданная сумма</h5>
             <div class="input-field col s12 m6 l6">
-                <input placeholder="Точка закупки" id="start_sum" type="text" class="validate" :value="route.startSum">
+                <input placeholder="Точка закупки" id="start_sum" type="text" class="validate" v-model="startSum">
                 <label for="route_point" class="active">Сумма</label>
             </div>
             <div class="input-field col s12 m6 l6">
