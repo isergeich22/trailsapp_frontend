@@ -48,7 +48,7 @@
             async createRoute(e) {
                 e.preventDefault()
                 console.log(this.baseApiUrl)
-                if(this.routePoints.length > 0) {
+                if(this.routePoints.length > 0 || this.packagePoints.length > 0) {
                     this.route = {
                         routePoints: this.routePoints,
                         packagePoints: this.packagePoints,
